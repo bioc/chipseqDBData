@@ -1,0 +1,112 @@
+---
+title: "Examining processing statistics for ChIP-seq datasets"
+author:
+- name: Aaron Lun
+  affiliation: Cancer Research UK Cambridge Institute, Cambridge, UK
+output:
+    BiocStyle::html_document
+package: chipseqDBData 
+vignette: |
+    %\VignetteIndexEntry{Exploring the 1.3 million brain cell scRNA-seq data from 10X Genomics}
+    %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, echo=FALSE, results="hide", message=FALSE}
+require(knitr)
+opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
+```
+
+```{r style, echo=FALSE, results='asis'}
+BiocStyle::markdown()
+```
+
+# Introduction
+
+Package: `r Biocpkg("chipseqDB")` <br />
+Author: Aaron Lun (alun@wehi.edu.au) <br />
+Modification date: 4 April, 2018 <br />
+Compilation date: `r Sys.Date()`
+
+This package contains several ChIP-seq datasets for use in differential binding (DB) analyses in the `r Biocpkg("chipseqDB")` workflow:
+
+- H3K9ac ChIP-seq in murine pro-B and mature B cells
+- CREB binding protein (CBP) ChIP-seq in wild-type and CBP-knockout mouse embryonic fibroblasts 
+
+This vignette will perform a brief examination of the processing statistics for these datasets.
+
+# Examining the H3K9ac data
+
+We load the data from _ExperimentHub_ using the `H3K9acData()` function.
+This downloads sorted and indexed BAM files to a local directory, along with the associated index files.
+
+```{r}
+library(chipseqDBData)
+h3k9ac.paths <- H3K9acData()
+h3k9ac.paths
+```
+
+We use functions from the `r Biocpkg("Rsamtools")` package to examine the mapping statistics.
+This includes the number of mapped reads, the number of marked reads (i.e., potential PCR duplicates) and the number of high-quality alignments with high mapping scores.
+
+```{r mapstat}
+library(Rsamtools)
+diagnostics <- list()
+for (bam in h3k9ac.paths) {
+    stats <- scanBam(bam, param=ScanBamParam(what=c("mapq", "flag")))
+    flag <- stats[[1]]$flag
+    mapq <- stats[[1]]$mapq
+
+    mapped <- bitwAnd(flag, 0x4)==0
+    diagnostics[[basename(bam)]] <- c(
+        Total=length(flag), 
+        Mapped=sum(mapped),
+        HighQual=sum(mapq >= 10 & mapped),
+        DupMarked=sum(bitwAnd(flag, 0x400)!=0)
+    )
+}
+diag.stats <- data.frame(do.call(rbind, diagnostics))
+diag.stats$Prop.mapped <- diag.stats$Mapped/diag.stats$Total*100
+diag.stats$Prop.marked <- diag.stats$Marked/diag.stats$Mapped*100
+diag.stats
+```
+
+# Examining the CBP data
+
+We load the data from _ExperimentHub_ using the `CBPData()` function.
+Again, this downloads sorted and indexed BAM files and their indexes to a local directory.
+
+```{r}
+cbp.paths <- CBPData()
+cbp.paths
+```
+
+We use functions from the `r Biocpkg("Rsamtools")` package to examine the mapping statistics.
+This includes the number of mapped reads, the number of marked reads (i.e., potential PCR duplicates) and the number of high-quality alignments with high mapping scores.
+
+```{r mapstat}
+library(Rsamtools)
+diagnostics <- list()
+for (bam in cbp.paths) {
+    stats <- scanBam(bam, param=ScanBamParam(what=c("mapq", "flag")))
+    flag <- stats[[1]]$flag
+    mapq <- stats[[1]]$mapq
+
+    mapped <- bitwAnd(flag, 0x4)==0
+    diagnostics[[basename(bam)]] <- c(
+        Total=length(flag), 
+        Mapped=sum(mapped),
+        HighQual=sum(mapq >= 10 & mapped),
+        DupMarked=sum(bitwAnd(flag, 0x400)!=0)
+    )
+}
+diag.stats <- data.frame(do.call(rbind, diagnostics))
+diag.stats$Prop.mapped <- diag.stats$Mapped/diag.stats$Total*100
+diag.stats$Prop.marked <- diag.stats$Marked/diag.stats$Mapped*100
+diag.stats
+```
+
+# Session information
+
+```{r}
+sessionInfo()
+```
