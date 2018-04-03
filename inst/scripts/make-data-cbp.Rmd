@@ -1,0 +1,97 @@
+---
+title: Aligning reads for the CBP dataset
+author: Aaron Lun
+date: 3 April 2018
+output:
+    BiocStyle::html_document
+---
+
+```{r, echo=FALSE, results="hide"}
+library(BiocStyle)
+library(knitr)
+knitr::opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
+```
+
+# Obtaining the read sequences 
+
+Libraries are downloaded from the NCBI GEO data series GSE54453, using the SRA accessions listed below.
+One file is available for each library, i.e., no technical replicates.
+SRA files are unpacked to yield FASTQ files with the raw read sequences.
+
+```{r}
+sra.numbers <- c("SRR1145787", "SRR1145788", "SRR1145789", "SRR1145790")
+for (sra in sra.numbers) {
+    code <- system(paste("fastq-dump --gzip --skip-technical --dumpbase --clip", sra))
+    stopifnot(code==0L)
+}
+all.fastq <- paste0(sra.numbers, ".fastq")
+```
+
+Reads are aligned to the mm10 genome using `r Biocpkg("Rsubread")`.
+Here, the default consensus threshold of 3 is used as the reads are longer (75 bp).
+
+```{r}
+bam.files <- paste0(sra.numbers, ".bam")
+align(index="index/mm10", readfile1=all.fastq, type=1, 
+    input_format="gzFASTQ", output_file=bam.files)
+```
+
+# Post-processing of the BAM files
+
+Alignments in each BAM file are sorted by coordinate.
+
+```{r}
+library(Rsamtools)
+for (bam in bam.files) {
+    out <- suppressWarnings(sortBam(bam, "cbp_temp"))
+    file.rename(out, bam)
+}
+[5~```
+
+Potential PCR duplicates are marked using the `MarkDuplicates` tool from the [Picard software suite](http://broadinstitute.github.io/picard).
+MarkDuplicates uses BAM index files if they're available.
+We don't want it using old indices, so we delete them beforehand if any are present.
+
+```{r}
+indices <- paste0(bam.files, ".bai")
+exist.indices <- file.exists(indices)
+if (any(exist.indices)) { unlink(indices[exist.indices]) }
+
+# Marking duplicates.
+temp.bam <- "cbp_temp.bam"
+temp.file <- "cbp_metric.txt"
+temp.dir <- "cbp_working"
+dir.create(temp.dir)
+for (bam in bam.files) {
+    out <- suppressWarnings(sortBam(bam, "cbp_temp"))
+    file.rename(out, bam)
+    code <- system(sprintf("MarkDuplicates I=%s O=%s M=%s \\
+        TMP_DIR=%s AS=true REMOVE_DUPLICATES=false \\
+        VALIDATION_STRINGENCY=SILENT",
+        bam, temp.bam, temp.file, temp.dir))
+    stopifnot(code==0L)
+    file.rename(temp.bam, bam)
+}
+```
+
+Finally, we create indices for all of the BAM files.
+
+```{r}
+indexBam(bam.files)
+```
+
+# Wrapping up
+
+We delete all of the unnecessary files that were generated during this procedure.
+
+```{r}
+unlink(all.fastq)
+unlink(temp.dir, recursive=TRUE)
+unlink(temp.file)    
+```
+
+We also show the session information.
+
+```{r}
+sessionInfo()
+```
