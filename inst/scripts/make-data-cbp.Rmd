@@ -46,7 +46,7 @@ for (bam in bam.files) {
     out <- suppressWarnings(sortBam(bam, "cbp_temp"))
     file.rename(out, bam)
 }
-[5~```
+```
 
 Potential PCR duplicates are marked using the `MarkDuplicates` tool from the [Picard software suite](http://broadinstitute.github.io/picard).
 MarkDuplicates uses BAM index files if they're available.
