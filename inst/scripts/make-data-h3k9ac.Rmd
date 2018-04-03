@@ -60,7 +60,7 @@ group.fastq <- paste0(names(by.group), ".fastq.gz")
 ```
 
 Reads are aligned to the mm10 build of the mouse genome using `r Biocpkg("Rsubread")`.
-This assumes that an index has already been constructed with the prefix "index/mm10".
+This assumes that an index has already been constructed with the prefix `index/mm10`, see the `buildindex()` function for details.
 Here, a threshold of 2 votes is used instead of the default of 3, to accommodate the short length of the reads (32-36 bp).
 The "type" parameter is also set to optimize for genomic alignment, rather than alignment to the transcriptome.
 
