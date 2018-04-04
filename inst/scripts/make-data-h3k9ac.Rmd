@@ -20,13 +20,13 @@ Multiple technical replicates exist for some libraries, and are indicated as tho
 
 ```{r}
 sra.numbers <- c("SRR499718", "SRR499719", 
-				 "SRR499720", "SRR499721", 
-				 "SRR499734", "SRR499735", "SRR499736", "SRR499737", 
-				 "SRR499738")
-grouping <-    c("proB-8113", "proB-8113", 
-			     "proB-8108", "proB-8108", 
-			     "matureB-8059", "matureB-8059", "matureB-8059", "matureB-8059", 
-				 "matureB-8086")
+                 "SRR499720", "SRR499721", 
+                 "SRR499734", "SRR499735", "SRR499736", "SRR499737", 
+                 "SRR499738")
+grouping  <-   c("proB-8113", "proB-8113", 
+                 "proB-8108", "proB-8108", 
+                 "matureB-8059", "matureB-8059", "matureB-8059", "matureB-8059", 
+                 "matureB-8086")
 ```
 
 These files need to be downloaded and unpacked to the FASTQ format prior to alignment.
@@ -34,13 +34,21 @@ This can be done using the `fastq-dump` utility from the [SRA Toolkit](http://ww
 Note that the SRA files themselves are saved in the local home directory and need to be cleared out.
 
 ```{r}
-for (sra in sra.numbers) {
-    code <- system(paste("fastq-dump --gzip --skip-technical --dumpbase --clip", sra))
-    stopifnot(code==0L)
-    tmp <- file.path("~/ncbi/public/sra", paste0(sra, ".sra"))
-    if (file.exists(tmp)) { unlink(tmp) }
-}
 all.fastq <- paste0(sra.numbers, ".fastq.gz")
+for (i in seq_along(sra.numbers)) {
+    # Skipping download if the file already exists.
+    if (file.exists(all.fastq[i])) { next } 
+   
+    # Downloading from NCBI.
+    cmd <- "fastq-dump --gzip --skip-technical --dumpbase --clip" 
+    code <- system(paste(cmd, sra.numbers[i]))
+    stopifnot(code==0L)
+
+    # Cleaning out the cache to reduce disk usage.
+    extras <- list.files("~/ncbi/public/sra", 
+        pattern=sprintf("^%s\\.", sra.numbers[i]), full=TRUE)
+    unlink(extras)
+}
 ```
 
 # Aligning reads to the mouse genome
