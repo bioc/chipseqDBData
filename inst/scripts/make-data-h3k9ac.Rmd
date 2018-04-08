@@ -67,7 +67,8 @@ The "type" parameter is also set to optimize for genomic alignment, rather than 
 ```{r}
 library(Rsubread)
 bam.files <- paste0(names(by.group), ".bam")
-align(index="index/mm10", readfile1=group.fastq, TH1=2, type=1, input_format="gzFASTQ", output_file=bam.files)
+align(index="index/mm10", readfile1=group.fastq, TH1=2, type=1, 
+    input_format="gzFASTQ", output_file=bam.files)
 ```
 
 # Post-processing of the BAM files
@@ -118,8 +119,9 @@ We delete all of the unnecessary files that were generated during this procedure
 
 ```{r}
 unlink(all.fastq)
+unlink(group.fastq)
 unlink(temp.dir, recursive=TRUE)
-unlink(temp.file)    
+unlink(temp.file)
 ```
 
 We also show the session information.

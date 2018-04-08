@@ -4,7 +4,7 @@ Version: 0.99.0
 Authors: Aaron Lun <alun@wehi.edu.au>
 Maintainer: Aaron Lun <alun@wehi.edu.au>
 Description: Sorted and indexed BAM files for ChIP-seq libraries, 
-	for use in the chipseqDB workflow. BAN indices are also included.
+	for use in the chipseqDB workflow. BAM indices are also included.
 License: CC BY 4.0
 Imports: AnnotationHub, ExperimentHub
 Suggests: knitr, BiocStyle, Rsamtools
