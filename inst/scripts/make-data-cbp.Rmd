@@ -20,17 +20,28 @@ SRA files are unpacked to yield FASTQ files with the raw read sequences.
 
 ```{r}
 sra.numbers <- c("SRR1145787", "SRR1145788", "SRR1145789", "SRR1145790")
-for (sra in sra.numbers) {
-    code <- system(paste("fastq-dump --gzip --skip-technical --dumpbase --clip", sra))
+all.fastq <- paste0(sra.numbers, ".fastq.gz")
+for (i in seq_along(sra.numbers)) {
+    # Skipping download if the file already exists.
+    if (file.exists(all.fastq[i])) { next } 
+    
+    # Downloading from NCBI.
+    cmd <- "fastq-dump --gzip --skip-technical --dumpbase --clip"
+    code <- system(paste(cmd, sra.numbers[i]))
     stopifnot(code==0L)
+
+    # Cleaning out the cache to reduce disk usage.
+    extras <- list.files("~/ncbi/public/sra", 
+        pattern=sprintf("^%s\\.", sra.numbers[i]), full=TRUE)
+    unlink(extras)
 }
-all.fastq <- paste0(sra.numbers, ".fastq")
 ```
 
 Reads are aligned to the mm10 genome using `r Biocpkg("Rsubread")`.
 Here, the default consensus threshold of 3 is used as the reads are longer (75 bp).
 
 ```{r}
+library(Rsubread)
 bam.files <- paste0(sra.numbers, ".bam")
 align(index="index/mm10", readfile1=all.fastq, type=1, 
     input_format="gzFASTQ", output_file=bam.files)
