@@ -30,7 +30,7 @@ This vignette will perform a brief examination of the processing statistics for 
 
 # Examining the H3K9ac data
 
-We load the data from _ExperimentHub_ using the `H3K9acData()` function.
+We load the data from `r Biocpkg("ExperimentHub")` using the `H3K9acData()` function.
 This downloads sorted and indexed BAM files to a local directory, along with the associated index files.
 
 ```{r}
@@ -42,7 +42,7 @@ h3k9ac.paths
 We use functions from the `r Biocpkg("Rsamtools")` package to examine the mapping statistics.
 This includes the number of mapped reads, the number of marked reads (i.e., potential PCR duplicates) and the number of high-quality alignments with high mapping scores.
 
-```{r mapstat}
+```{r}
 library(Rsamtools)
 diagnostics <- list()
 for (bam in h3k9ac.paths) {
@@ -66,7 +66,7 @@ diag.stats
 
 # Examining the CBP data
 
-We load the data from _ExperimentHub_ using the `CBPData()` function.
+We load the data from `r Biocpkg("ExperimentHub")` using the `CBPData()` function.
 Again, this downloads sorted and indexed BAM files and their indexes to a local directory.
 
 ```{r}
@@ -77,8 +77,7 @@ cbp.paths
 We use functions from the `r Biocpkg("Rsamtools")` package to examine the mapping statistics.
 This includes the number of mapped reads, the number of marked reads (i.e., potential PCR duplicates) and the number of high-quality alignments with high mapping scores.
 
-```{r mapstat}
-library(Rsamtools)
+```{r}
 diagnostics <- list()
 for (bam in cbp.paths) {
     stats <- scanBam(bam, param=ScanBamParam(what=c("mapq", "flag")))
