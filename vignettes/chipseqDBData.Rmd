@@ -12,6 +12,7 @@ vignette: >
     %\VignetteIndexEntry{File manifest and statistics}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}    
+bibliography: ref.bib
 ---
 
 ```{r, echo=FALSE, results="hide", message=FALSE}
@@ -21,12 +22,12 @@ opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
 
 # Introduction
 
-This package contains several ChIP-seq datasets for use in differential binding (DB) analyses in the `r Biocpkg("chipseqDB")` workflow:
+This package contains several ChIP-seq datasets for use in differential binding (DB) analyses in the `r Biocpkg("chipseqDB")` workflow [@lun2015reads]:
 
-- H3K9ac ChIP-seq in murine pro-B and mature B cells
-- CREB binding protein (CBP) ChIP-seq in wild-type and CBP-knockout mouse embryonic fibroblasts 
+- H3K9ac ChIP-seq in murine pro-B and mature B cells [@domingo2012bcell]
+- CREB binding protein (CBP) ChIP-seq in wild-type and CBP-knockout mouse embryonic fibroblasts [@kasper2014genomewide]
 
-This vignette will perform a brief examination of the processing statistics for these datasets.
+This vignette will briefly examine the processing statistics for these datasets.
 
 # Examining the H3K9ac data
 
@@ -103,3 +104,5 @@ diag.stats
 ```{r}
 sessionInfo()
 ```
+
+# References
