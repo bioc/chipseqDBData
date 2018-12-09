@@ -1,0 +1,108 @@
+---
+title: Aligning reads for the NF-YA dataset
+author: Aaron Lun
+date: 3 April 2018
+output:
+    BiocStyle::html_document
+---
+
+```{r, echo=FALSE, results="hide"}
+library(BiocStyle)
+library(knitr)
+knitr::opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
+```
+
+# Obtaining the read sequences 
+
+Libraries are downloaded from the NCBI GEO data series GSE25532, using the SRA accessions listed below.
+One file is available for each library, i.e., no technical replicates.
+SRA files are unpacked to yield FASTQ files with the raw read sequences.
+
+```{r}
+sra.numbers <- c("SRR074398", "SRR074399", "SRR074417", "SRR074418", "SRR074401")
+all.fastq <- paste0(sra.numbers, ".fastq.gz")
+for (i in seq_along(sra.numbers)) {
+    # Skipping download if the file already exists.
+    if (file.exists(all.fastq[i])) { next } 
+    
+    # Downloading from NCBI.
+    cmd <- "fastq-dump --gzip --skip-technical --dumpbase --clip"
+    code <- system(paste(cmd, sra.numbers[i]))
+    stopifnot(code==0L)
+
+    # Cleaning out the cache to reduce disk usage.
+    extras <- list.files("~/ncbi/public/sra", 
+        pattern=sprintf("^%s\\.", sra.numbers[i]), full=TRUE)
+    unlink(extras)
+}
+```
+
+Reads are aligned to the mm10 genome using `r Biocpkg("Rsubread")`.
+Here, a consensus threshold of 2 is used as the reads are quite short (32-35 bp).
+
+```{r}
+library(Rsubread)
+bam.files <- paste0(sra.numbers, ".bam")
+align(index="index/mm10", readfile1=all.fastq, type=1, 
+    input_format="gzFASTQ", output_file=bam.files)
+```
+
+# Post-processing of the BAM files
+
+Alignments in each BAM file are sorted by coordinate.
+
+```{r}
+library(Rsamtools)
+for (bam in bam.files) {
+    out <- suppressWarnings(sortBam(bam, "nfya_temp"))
+    file.rename(out, bam)
+}
+```
+
+Potential PCR duplicates are marked using the `MarkDuplicates` tool from the [Picard software suite](http://broadinstitute.github.io/picard).
+MarkDuplicates uses BAM index files if they're available.
+We don't want it using old indices, so we delete them beforehand if any are present.
+
+```{r}
+indices <- paste0(bam.files, ".bai")
+exist.indices <- file.exists(indices)
+if (any(exist.indices)) { unlink(indices[exist.indices]) }
+
+# Marking duplicates.
+temp.bam <- "nfya_temp.bam"
+temp.file <- "nfya_metric.txt"
+temp.dir <- "nfya_working"
+dir.create(temp.dir)
+for (bam in bam.files) {
+    out <- suppressWarnings(sortBam(bam, "nfya_temp"))
+    file.rename(out, bam)
+    code <- system(sprintf("MarkDuplicates I=%s O=%s M=%s \\
+        TMP_DIR=%s AS=true REMOVE_DUPLICATES=false \\
+        VALIDATION_STRINGENCY=SILENT",
+        bam, temp.bam, temp.file, temp.dir))
+    stopifnot(code==0L)
+    file.rename(temp.bam, bam)
+}
+```
+
+Finally, we create indices for all of the BAM files.
+
+```{r}
+indexBam(bam.files)
+```
+
+# Wrapping up
+
+We delete all of the unnecessary files that were generated during this procedure.
+
+```{r}
+unlink(all.fastq)
+unlink(temp.dir, recursive=TRUE)
+unlink(temp.file)    
+```
+
+We also show the session information.
+
+```{r}
+sessionInfo()
+```

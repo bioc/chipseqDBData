@@ -100,7 +100,62 @@ cbp.data <- data.frame(
     stringsAsFactors = FALSE
 )
 
+# Setting up the NF-YA metadata.
+
+nfya.data <- data.frame(
+    Title = paste(
+		rep(c(
+			"NF-YA ESC (1)",
+			"NF-YA ESC (2)",
+			"NF-YA TN (1)", 
+			"NF-YA TN (2)",
+            "Input"
+		), 2),
+		rep(c("BAM", "index"), each=5)
+	),
+    Description = paste(
+		rep(c("BAM file", "BAM file index"), each=5),
+		"for NF-YA ChIP-seq in",
+        rep(c(
+            "embryonic stem cells (replicate 1)",
+			"embryonic stem cells (replicate 2)",
+			"terminal neurons (replicate 1)",
+			"terminal neurons (replicate 2)",
+            "input control"
+        ), 2)
+    ),
+    RDataPath = paste0(
+		rep(c(
+        	"chipseqDBData/SRR074398",
+    	    "chipseqDBData/SRR074399",
+	        "chipseqDBData/SRR074417",
+        	"chipseqDBData/SRR074418",
+        	"chipseqDBData/SRR074401"
+		), 2),
+		rep(c(".bam", ".bam.bai"), each=5)
+    ),
+    BiocVersion="3.8",
+    Genome="mm10",
+    SourceType="SRA",
+    SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE25532",
+    SourceVersion=rep(c(
+		"GSM632038",
+		"GSM632039",
+		"GSM632057",
+		"GSM632058",
+        "GSM632041"
+	), 2),
+    Species="Mus musculus",
+    TaxonomyId="10090",
+    Coordinate_1_based=FALSE,
+    DataProvider="NCBI GEO",
+    Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
+    RDataClass="character",
+    DispatchClass=rep(c("BAM", "BAI"), each=5),
+    stringsAsFactors = FALSE
+)
+
 # Combining to form the final metadata.
 
-main.data <- rbind(h3k9ac.data, cbp.data)
+main.data <- rbind(h3k9ac.data, cbp.data, nfya.data)
 write.csv(file="metadata.csv", main.data, row.names=FALSE)
