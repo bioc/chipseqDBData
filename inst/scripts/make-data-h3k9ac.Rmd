@@ -75,7 +75,7 @@ The "type" parameter is also set to optimize for genomic alignment, rather than 
 ```{r}
 library(Rsubread)
 bam.files <- paste0(names(by.group), ".bam")
-align(index="index/mm10", readfile1=group.fastq, TH1=2, type=1, 
+align(index="index/mm10", readfile1=group.fastq, TH1=2, type='dna', 
     input_format="gzFASTQ", output_file=bam.files)
 ```
 

@@ -43,7 +43,7 @@ Here, the default consensus threshold of 3 is used as the reads are longer (75 b
 ```{r}
 library(Rsubread)
 bam.files <- paste0(sra.numbers, ".bam")
-align(index="index/mm10", readfile1=all.fastq, type=1, 
+align(index="index/mm10", readfile1=all.fastq, type='dna',
     input_format="gzFASTQ", output_file=bam.files)
 ```
 
