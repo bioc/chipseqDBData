@@ -26,10 +26,10 @@ sra.numbers <- list(
     c("SRR499729", "SRR499730", "SRR499731")
 ) 
 grouping <- rep(c(
-    "h3k4me3-pro-8110",
-    "h3k4me3-pro-8115",
-    "h3k4me3-mature-8070",
-    "h3k4me3-mature-8088"
+    "h3k4me3-proB-8110",
+    "h3k4me3-proB-8115",
+    "h3k4me3-matureB-8070",
+    "h3k4me3-matureB-8088"
 ), lengths(sra.numbers))
 
 sra.numbers <- unlist(sra.numbers)
