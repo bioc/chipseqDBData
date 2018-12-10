@@ -16,7 +16,9 @@ knitr::opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
 
 Libraries are downloaded from the NCBI GEO data series GSE54453, using the SRA accessions listed below.
 One file is available for each library, i.e., no technical replicates.
-SRA files are unpacked to yield FASTQ files with the raw read sequences.
+SRA files are unpacked to yield FASTQ files with the raw read sequences, using the `fastq-dump` utility from the [SRA Toolkit](http://www.ncbi.nlm.nih.gov/Traces/sra/?view=software).
+Note that the SRA files themselves are saved in the local home directory and need to be cleared out.
+
 
 ```{r}
 sra.numbers <- c("SRR1145787", "SRR1145788", "SRR1145789", "SRR1145790")
@@ -38,7 +40,9 @@ for (i in seq_along(sra.numbers)) {
 ```
 
 Reads are aligned to the mm10 genome using `r Biocpkg("Rsubread")`.
+This assumes that an index has already been constructed with the prefix `index/mm10`, see the `buildindex()` function for details.
 Here, the default consensus threshold of 3 is used as the reads are longer (75 bp).
+The "type" parameter is also set to optimize for genomic alignment, rather than alignment to the transcriptome.
 
 ```{r}
 library(Rsubread)
