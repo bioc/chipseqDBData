@@ -1,0 +1,6 @@
+*.bam
+*.bai
+*.vcf
+*.err
+*.out
+*.html
