@@ -1,0 +1,146 @@
+---
+title: Aligning reads for the H3K4me3 dataset
+author: Aaron Lun
+date: 3 April 2018
+output:
+    BiocStyle::html_document
+---
+
+```{r, echo=FALSE, results="hide"}
+library(BiocStyle)
+library(knitr)
+knitr::opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
+```
+
+# Obtaining the read sequences 
+
+The first task is to download the relevant ChIP-seq libraries from the NCBI Gene Expression Omnibus (GEO).
+These files are obtained from the data series GSE38046, using the Sequence Read Accession (SRA) numbers listed below.
+Multiple technical replicates exist for some libraries, and are indicated as those files with the same `grouping`.
+
+```{r}
+sra.numbers <- list(
+    c("SRR499716", "SRR499717"),
+    c("SRR499714", "SRR499715"),
+    c("SRR499732", "SRR499733"),
+    c("SRR499729", "SRR499730", "SRR499731")
+) 
+grouping <- rep(c(
+    "h3k4me3-pro-8110",
+    "h3k4me3-pro-8115",
+    "h3k4me3-mature-8070",
+    "h3k4me3-mature-8088"
+), lengths(sra.numbers))
+
+sra.numbers <- unlist(sra.numbers)
+data.frame(SRA=sra.numbers, Group=grouping)
+```
+
+These files need to be downloaded and unpacked to the FASTQ format prior to alignment.
+This can be done using the `fastq-dump` utility from the [SRA Toolkit](http://www.ncbi.nlm.nih.gov/Traces/sra/?view=software).
+Note that the SRA files themselves are saved in the local home directory and need to be cleared out.
+
+```{r}
+all.fastq <- paste0(sra.numbers, ".fastq.gz")
+for (i in seq_along(sra.numbers)) {
+    # Skipping download if the file already exists.
+    if (file.exists(all.fastq[i])) { next } 
+   
+    # Downloading from NCBI.
+    cmd <- "fastq-dump --gzip --skip-technical --dumpbase --clip" 
+    code <- system(paste(cmd, sra.numbers[i]))
+    stopifnot(code==0L)
+
+    # Cleaning out the cache to reduce disk usage.
+    extras <- list.files("~/ncbi/public/sra", 
+        pattern=sprintf("^%s\\.", sra.numbers[i]), full=TRUE)
+    unlink(extras)
+}
+```
+
+# Aligning reads to the mouse genome
+
+Reads from technical replicates are pooled together into a single FASTQ file prior to further processing.
+This reflects the fact that they originate from a single library of DNA fragments.
+Note that gzipped files can be directly concatenated, hence the use of `cat`.
+
+```{r}
+by.group <- split(all.fastq, grouping)
+for (group in names(by.group)) {
+    code <- system(paste(c("cat", by.group[[group]], ">", 
+        paste0(group, ".fastq.gz")), collapse=" "))
+    stopifnot(code==0L)
+}
+group.fastq <- paste0(names(by.group), ".fastq.gz")
+```
+
+Reads are aligned to the mm10 build of the mouse genome using `r Biocpkg("Rsubread")`.
+This assumes that an index has already been constructed with the prefix `index/mm10`, see the `buildindex()` function for details.
+Here, a threshold of 2 votes is used instead of the default of 3, to accommodate the short length of the reads (32-36 bp).
+The "type" parameter is also set to optimize for genomic alignment, rather than alignment to the transcriptome.
+
+```{r}
+library(Rsubread)
+bam.files <- paste0(names(by.group), ".bam")
+align(index="index/mm10", readfile1=group.fastq, TH1=2, type='dna', 
+    input_format="gzFASTQ", output_file=bam.files)
+```
+
+# Post-processing of the BAM files
+
+We sort the alignments by their coordinates in the BAM files.
+
+```{r}
+library(Rsamtools)
+for (bam in bam.files) {
+    out <- suppressWarnings(sortBam(bam, "h3k9ac_temp"))
+    file.rename(out, bam)
+}
+```
+
+Potential PCR duplicates are marked using the `MarkDuplicates` tool from the [Picard software suite](http://broadinstitute.github.io/picard).
+For some reason, MarkDuplicates uses BAM index files if they're available.
+We don't want it using old indices, so we delete them beforehand if any are present.
+
+```{r}
+indices <- paste0(bam.files, ".bai")
+exist.indices <- file.exists(indices)
+if (any(exist.indices)) { unlink(indices[exist.indices]) }
+
+# Marking duplicates.
+temp.bam <- "h3k9ac_temp.bam"
+temp.file <- "h3k9ac_metric.txt"
+temp.dir <- "h3k9ac_working"
+dir.create(temp.dir)
+for (bam in bam.files) {
+    code <- system(sprintf("MarkDuplicates I=%s O=%s M=%s \\
+        TMP_DIR=%s AS=true REMOVE_DUPLICATES=false \\
+        VALIDATION_STRINGENCY=SILENT", bam, temp.bam,   
+        temp.file, temp.dir))
+    stopifnot(code==0L)
+    file.rename(temp.bam, bam)
+}
+```
+
+Finally, we create indices for all of the BAM files.
+
+```{r}
+indexBam(bam.files)
+```
+
+# Wrapping up
+
+We delete all of the unnecessary files that were generated during this procedure.
+
+```{r}
+unlink(all.fastq)
+unlink(group.fastq)
+unlink(temp.dir, recursive=TRUE)
+unlink(temp.file)
+```
+
+We also show the session information.
+
+```{r}
+sessionInfo()
+```
