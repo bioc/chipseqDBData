@@ -43,7 +43,7 @@ h3k9ac.data <- data.frame(
     TaxonomyId="10090",
     Coordinate_1_based=FALSE,
     DataProvider="NCBI GEO",
-    Maintainer="Aaron Lun <alun@wehi.edu.au>",
+    Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
     RDataClass="character",
     DispatchClass=rep(c("BAM", "BAI"), each=4),
     stringsAsFactors = FALSE
@@ -94,7 +94,7 @@ cbp.data <- data.frame(
     TaxonomyId="10090",
     Coordinate_1_based=FALSE,
     DataProvider="NCBI GEO",
-    Maintainer="Aaron Lun <alun@wehi.edu.au>",
+    Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
     RDataClass="character",
     DispatchClass=rep(c("BAM", "BAI"), each=4),
     stringsAsFactors = FALSE
@@ -200,7 +200,7 @@ h3k4me3.data <- data.frame(
     TaxonomyId="10090",
     Coordinate_1_based=FALSE,
     DataProvider="NCBI GEO",
-    Maintainer="Aaron Lun <alun@wehi.edu.au>",
+    Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
     RDataClass="character",
     DispatchClass=rep(c("BAM", "BAI"), each=4),
     stringsAsFactors = FALSE
