@@ -206,6 +206,56 @@ h3k4me3.data <- data.frame(
     stringsAsFactors = FALSE
 )
 
+# Setting up the H3K27me3 metadata.
+
+cbp.data <- data.frame(
+    Title = paste(
+        rep(c(
+            "control (1)",
+            "control (2)",
+            "Ezh2 knock-out (1)",
+            "Ezh2 knock-out (2)"
+        ), 2),
+        rep(c("BAM", "index"), each=4)
+    ),
+    Description = paste(
+        rep(c("BAM file", "BAM file index"), each=4),
+        "for H3K27me3 ChIP-seq in",
+        rep(c(
+            "wild-type lung epithelium  (replicate 1)",
+            "wild-type lung epithelium (replicate 2)",
+            "Ezh2 knock-out lung epithelium (replicate 1)",
+            "Ezh2 knock-out lung epithelium (replicate 2)"
+        ), 2)
+    ),
+    RDataPath = paste0(
+        rep(c(
+            "chipseqDBData/SRR1274188",
+            "chipseqDBData/SRR1274189",
+            "chipseqDBData/SRR1274190",
+            "chipseqDBData/SRR1274191"
+        ), 2),
+        rep(c(".bam", ".bam.bai"), each=4)
+    ),
+    BiocVersion="3.8",
+    Genome="mm10",
+    SourceType="SRA",
+    SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE57392",
+    SourceVersion=rep(c(
+        "GSM1381952",
+        "GSM1381953",
+        "GSM1381954",
+        "GSM1381955"
+    ), 2),
+    Species="Mus musculus",
+    TaxonomyId="10090",
+    Coordinate_1_based=FALSE,
+    DataProvider="NCBI GEO",
+    Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
+    RDataClass="character",
+    DispatchClass=rep(c("BAM", "BAI"), each=4),
+    stringsAsFactors = FALSE
+)
 
 # Combining to form the final metadata.
 
