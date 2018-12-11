@@ -208,13 +208,13 @@ h3k4me3.data <- data.frame(
 
 # Setting up the H3K27me3 metadata.
 
-cbp.data <- data.frame(
+h3k27me3.data <- data.frame(
     Title = paste(
         rep(c(
-            "control (1)",
-            "control (2)",
-            "Ezh2 knock-out (1)",
-            "Ezh2 knock-out (2)"
+            "control H3K27me3 (1)",
+            "control H3K27me3 (2)",
+            "Ezh2 knock-out H3K27me3 (1)",
+            "Ezh2 knock-out H3K27me3 (2)"
         ), 2),
         rep(c("BAM", "index"), each=4)
     ),
@@ -259,5 +259,5 @@ cbp.data <- data.frame(
 
 # Combining to form the final metadata.
 
-main.data <- rbind(h3k9ac.data, cbp.data, nfya.data, h3k4me3.data)
+main.data <- rbind(h3k9ac.data, cbp.data, nfya.data, h3k4me3.data, h3k27me3.data)
 write.csv(file="metadata.csv", main.data, row.names=FALSE)
