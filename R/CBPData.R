@@ -1,16 +1,18 @@
+#' @export
+#' @importFrom S4Vectors DataFrame
 CBPData <- function() 
-# Download the BAM files (and indices) for the H3K9ac dataset.
-# Return their paths in a character vector. 
+# Download the BAM files (and indices) for the CBP dataset.
 {
-     hub <- ExperimentHub()
-     files <- c("SRR1145787", "SRR1145788", "SRR1145789", "SRR1145790")
-     bam.files <- paste0(files, ".bam")
-     bai.files <- paste0(bam.files, ".bai")
-
-     for (x in seq_along(files)) {
-         bam.files[i] <- query(hub, bam.files[x])[[1]]
-         bai.files[i] <- query(hub, bai.files[x])[[1]]
-     }
-
-     return(bam.files)
+     sra.codes <- c("SRR1145787", "SRR1145788", "SRR1145789", "SRR1145790")
+     returned <- .linker(sra.codes)
+     DataFrame(
+        Name=sra.codes,
+        Description=c(
+            "CBP wild-type (1)",
+            "CBP wild-type (2)",
+            "CBP knock-out (1)",
+            "CBP knock-out (2)"
+        ),
+        Path=returned
+    )
 }
