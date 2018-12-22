@@ -49,7 +49,7 @@ This uses single-end sequencing data from accession GSE57392 of the NCBI Gene Ex
 This uses single-end sequencing data from accession GSE25532 of the NCBI Gene Expression Omnibus.
 
 All mouse datasets were aligned to the mm10 build of the mouse genome.
-All BAM files are sorted and indexed.
+All BAM files are sorted and indexed, with duplicate reads marked with \code{MarkDuplicates}.
 Index files are named by appending \code{.bai} onto the BAM file paths.
 }
 
@@ -78,6 +78,8 @@ Repression of Igf1 expression by Ezh2 prevents basal cell differentiation in the
 \examples{
 H3K9acData()
 
+\dontrun{
+# And so on...
 CBPData()
 
 H3K4me3Data()
@@ -85,4 +87,6 @@ H3K4me3Data()
 H3K27me3Data()
 
 NFYAData()
+
+}
 }
