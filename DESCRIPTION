@@ -10,6 +10,6 @@ License: CC BY 4.0
 Imports: AnnotationHub, ExperimentHub, S4Vectors
 Suggests: knitr, BiocStyle, Rsamtools
 VignetteBuilder: knitr
-biocViews: SequencingData, ChIPSeqData
+biocViews: SequencingData, ChIPSeqData, ExperimentHub
 NeedsCompilation: no
 RoxygenNote: 6.1.1
