@@ -1,9 +1,9 @@
 #' @importFrom ExperimentHub ExperimentHub
 #' @importFrom AnnotationHub query
-.linker <- function(sra, outdir=tempfile(fileext="_chipseqDBData"), hub=ExperimentHub())
+.linker <- function(dataset, sra, outdir=tempfile(fileext="_chipseqDBData"), hub=ExperimentHub())
 # Creates links from the BAM files and indices.
 {
-    targets <- file.path("chipseqDBData", sra)
+    targets <- file.path("chipseqDBData", dataset, sra)
     if (!file.exists(outdir)) {
         dir.create(outdir, showWarning=FALSE)
     }

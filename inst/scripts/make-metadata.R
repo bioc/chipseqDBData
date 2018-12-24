@@ -21,11 +21,13 @@ h3k9ac.data <- data.frame(
         ), 2)
     ),
     RDataPath = paste0(
-        rep(c(
-            "chipseqDBData/h3k9ac-proB-8113",
-            "chipseqDBData/h3k9ac-proB-8108",
-            "chipseqDBData/h3k9ac-matureB-8059",
-            "chipseqDBData/h3k9ac-matureB-8086"
+        rep(file.path("chipseqDBData", "h3k9ac", "1.0.0", 
+            c(
+                "h3k9ac-proB-8113",
+                "h3k9ac-proB-8108",
+                "h3k9ac-matureB-8059",
+                "h3k9ac-matureB-8086"
+             )
         ), 2),
         rep(c(".bam", ".bam.bai"), each=4)
     ),
@@ -72,11 +74,13 @@ cbp.data <- data.frame(
         ), 2)
     ),
     RDataPath = paste0(
-        rep(c(
-            "chipseqDBData/SRR1145787",
-            "chipseqDBData/SRR1145788",
-            "chipseqDBData/SRR1145789",
-            "chipseqDBData/SRR1145790"
+        rep(file.path("chipseqDBData", "cbp", "1.0.0", 
+            c(
+                "SRR1145787",
+                "SRR1145788",
+                "SRR1145789",
+                "SRR1145790"
+             )
         ), 2),
         rep(c(".bam", ".bam.bai"), each=4)
     ),
@@ -125,12 +129,14 @@ nfya.data <- data.frame(
         ), 2)
     ),
     RDataPath = paste0(
-        rep(c(
-            "chipseqDBData/SRR074398",
-            "chipseqDBData/SRR074399",
-            "chipseqDBData/SRR074417",
-            "chipseqDBData/SRR074418",
-            "chipseqDBData/SRR074401"
+        rep(file.path("chipseqDBData", "nfya", "1.0.0",
+            c(
+                "SRR074398",
+                "SRR074399",
+                "SRR074417",
+                "SRR074418",
+                "SRR074401"
+             )
         ), 2),
         rep(c(".bam", ".bam.bai"), each=5)
     ),
@@ -178,11 +184,13 @@ h3k4me3.data <- data.frame(
         ), 2)
     ),
     RDataPath = paste0(
-        rep(c(
-            "chipseqDBData/h3k4me3-proB-8110",
-            "chipseqDBData/h3k4me3-proB-8115",
-            "chipseqDBData/h3k4me3-matureB-8070",
-            "chipseqDBData/h3k4me3-matureB-8088"
+        rep(file.path("chipseqDBData", "h3k4me3", "1.0.0",
+            c(
+                "h3k4me3-proB-8110",
+                "h3k4me3-proB-8115",
+                "h3k4me3-matureB-8070",
+                "h3k4me3-matureB-8088"
+             )
         ), 2),
         rep(c(".bam", ".bam.bai"), each=4)
     ),
@@ -229,11 +237,13 @@ h3k27me3.data <- data.frame(
         ), 2)
     ),
     RDataPath = paste0(
-        rep(c(
-            "chipseqDBData/SRR1274188",
-            "chipseqDBData/SRR1274189",
-            "chipseqDBData/SRR1274190",
-            "chipseqDBData/SRR1274191"
+        rep(file.path("chipseqDBData", "h3k27me3", "1.0.0",
+            c(
+                "SRR1274188",
+                "SRR1274189",
+                "SRR1274190",
+                "SRR1274191"
+             )
         ), 2),
         rep(c(".bam", ".bam.bai"), each=4)
     ),

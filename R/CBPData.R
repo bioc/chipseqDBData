@@ -4,7 +4,7 @@ CBPData <- function()
 # Download the BAM files (and indices) for the CBP dataset.
 {
      sra.codes <- c("SRR1145787", "SRR1145788", "SRR1145789", "SRR1145790")
-     returned <- .linker(sra.codes)
+     returned <- .linker("cbp/1.0.0", sra.codes)
      DataFrame(
         Name=sra.codes,
         Description=c(

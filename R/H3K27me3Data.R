@@ -4,7 +4,7 @@ H3K27me3Data <- function()
 # Download the BAM files (and indices) for the H3K9ac dataset.
 {
      sra.codes <- c("SRR1274188", "SRR1274189", "SRR1274190", "SRR1274191")
-     returned <- .linker(sra.codes)
+     returned <- .linker("h3k27me3/1.0.0", sra.codes)
      DataFrame(
         Name=files,
         Description=c(

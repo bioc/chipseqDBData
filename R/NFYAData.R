@@ -4,7 +4,7 @@ NFYAData <- function()
 # Download the BAM files (and indices) for the NF-YA dataset.
 {
      sra.codes <- c("SRR074398", "SRR074399", "SRR074417", "SRR074418", "SRR074401")
-     returned <- .linker(sra.codes)
+     returned <- .linker("nfya/1.0.0", sra.codes)
      DataFrame(
         Name=sra.codes,
         Description=c(
