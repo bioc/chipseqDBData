@@ -31,7 +31,7 @@ h3k9ac.data <- data.frame(
         ), 2),
         rep(c(".bam", ".bam.bai"), each=4)
     ),
-    BiocVersion="3.8",
+    BiocVersion="3.9",
     Genome="mm10",
     SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE38046",
@@ -84,7 +84,7 @@ cbp.data <- data.frame(
         ), 2),
         rep(c(".bam", ".bam.bai"), each=4)
     ),
-    BiocVersion="3.8",
+    BiocVersion="3.9",
     Genome="mm10",
     SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE54453",
@@ -140,7 +140,7 @@ nfya.data <- data.frame(
         ), 2),
         rep(c(".bam", ".bam.bai"), each=5)
     ),
-    BiocVersion="3.8",
+    BiocVersion="3.9",
     Genome="mm10",
     SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE25532",
@@ -194,7 +194,7 @@ h3k4me3.data <- data.frame(
         ), 2),
         rep(c(".bam", ".bam.bai"), each=4)
     ),
-    BiocVersion="3.8",
+    BiocVersion="3.9",
     Genome="mm10",
     SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE38046",
@@ -247,7 +247,7 @@ h3k27me3.data <- data.frame(
         ), 2),
         rep(c(".bam", ".bam.bai"), each=4)
     ),
-    BiocVersion="3.8",
+    BiocVersion="3.9",
     Genome="mm10",
     SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE57392",
