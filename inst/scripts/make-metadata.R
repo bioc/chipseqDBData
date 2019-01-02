@@ -33,12 +33,12 @@ h3k9ac.data <- data.frame(
     ),
     BiocVersion="3.8",
     Genome="mm10",
-    SourceType="SRA",
+    SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE38046",
     SourceVersion=rep(c(
-        "GSM932943, GSM932944",
-        "GSM932945, GSM932946",
-        "GSM932959, GSM932960, GSM932961, GSM932962",
+        "GSM932943;GSM932944",
+        "GSM932945;GSM932946",
+        "GSM932959;GSM932960;GSM932961;GSM932962",
         "GSM932963"
     ), 2),
     Species="Mus musculus",
@@ -47,7 +47,7 @@ h3k9ac.data <- data.frame(
     DataProvider="NCBI GEO",
     Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
     RDataClass="character",
-    DispatchClass=rep(c("BAM", "BAI"), each=4),
+    DispatchClass="FilePath",
     stringsAsFactors = FALSE
 )
 
@@ -86,7 +86,7 @@ cbp.data <- data.frame(
     ),
     BiocVersion="3.8",
     Genome="mm10",
-    SourceType="SRA",
+    SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE54453",
     SourceVersion=rep(c(
         "GSM1315600",
@@ -100,7 +100,7 @@ cbp.data <- data.frame(
     DataProvider="NCBI GEO",
     Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
     RDataClass="character",
-    DispatchClass=rep(c("BAM", "BAI"), each=4),
+    DispatchClass="FilePath",
     stringsAsFactors = FALSE
 )
 
@@ -142,7 +142,7 @@ nfya.data <- data.frame(
     ),
     BiocVersion="3.8",
     Genome="mm10",
-    SourceType="SRA",
+    SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE25532",
     SourceVersion=rep(c(
         "GSM632038",
@@ -157,7 +157,7 @@ nfya.data <- data.frame(
     DataProvider="NCBI GEO",
     Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
     RDataClass="character",
-    DispatchClass=rep(c("BAM", "BAI"), each=5),
+    DispatchClass="FilePath",
     stringsAsFactors = FALSE
 )
 
@@ -196,13 +196,13 @@ h3k4me3.data <- data.frame(
     ),
     BiocVersion="3.8",
     Genome="mm10",
-    SourceType="SRA",
+    SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE38046",
     SourceVersion=rep(c(
-        "GSM932941, GSM932942",
-        "GSM932939, GSM932940",
-        "GSM932957, GSM932958",
-        "GSM932954, GSM932955, GSM932956"
+        "GSM932941;GSM932942",
+        "GSM932939;GSM932940",
+        "GSM932957;GSM932958",
+        "GSM932954;GSM932955;GSM932956"
     ), 2),
     Species="Mus musculus",
     TaxonomyId="10090",
@@ -210,7 +210,7 @@ h3k4me3.data <- data.frame(
     DataProvider="NCBI GEO",
     Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
     RDataClass="character",
-    DispatchClass=rep(c("BAM", "BAI"), each=4),
+    DispatchClass="FilePath",
     stringsAsFactors = FALSE
 )
 
@@ -249,7 +249,7 @@ h3k27me3.data <- data.frame(
     ),
     BiocVersion="3.8",
     Genome="mm10",
-    SourceType="SRA",
+    SourceType="FASTQ",
     SourceUrl="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE57392",
     SourceVersion=rep(c(
         "GSM1381952",
@@ -263,7 +263,7 @@ h3k27me3.data <- data.frame(
     DataProvider="NCBI GEO",
     Maintainer="Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>",
     RDataClass="character",
-    DispatchClass=rep(c("BAM", "BAI"), each=4),
+    DispatchClass="FilePath",
     stringsAsFactors = FALSE
 )
 
