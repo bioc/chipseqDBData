@@ -1,26 +1,25 @@
 #' @importFrom ExperimentHub ExperimentHub
-#' @importFrom AnnotationHub query
+#' @importMethodsFrom AnnotationHub subset
 .linker <- function(dataset, sra, outdir=tempfile(fileext="_chipseqDBData"), hub=ExperimentHub())
 # Creates links from the BAM files and indices.
 {
-    targets <- file.path("chipseqDBData", dataset, sra)
+    targets <- file.path("chipseqDBData", dataset, sprintf("%s.bam", sra))
     if (!file.exists(outdir)) {
         dir.create(outdir, showWarning=FALSE)
     }
-    output <- file.path(outdir, sra)
+    output <- file.path(outdir, sprintf("%s.bam", sra))
 
     for (i in seq_along(targets)) {
         curtarget <- targets[i]
-        curoutput <- output[i]
+        outbam <- output[i]
+        outbai <- paste0(outbam, ".bai")
 
-        curbam <- query(hub, paste0(curtarget, ".bam"))[[1]]
-        outbam <- paste0(curoutput, ".bam")
+        curbam <- subset(hub, rdatapath == curtarget)[[1]]
         if (!file.symlink(curbam, outbam)) {
             stop(sprintf("failed to create symbolic link at '%s'", outbam))
         }
 
-        curbai <- query(hub, paste0(curtarget, ".bai"))[[1]]
-        outbai <- paste0(curoutput, ".bai")
+        curbai <- subset(hub, rdatapath == paste0(curtarget, ".bai"))[[1]]
         if (!file.symlink(curbai, outbai)) {
             stop(sprintf("failed to create symbolic link at '%s'", outbai))
         }
