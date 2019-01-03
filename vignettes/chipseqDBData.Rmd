@@ -77,7 +77,7 @@ for (i in seq_len(nrow(h3k9ac.paths))) {
 }
 diag.stats <- data.frame(do.call(rbind, diagnostics))
 diag.stats$Prop.mapped <- diag.stats$Mapped/diag.stats$Total*100
-diag.stats$Prop.marked <- diag.stats$Marked/diag.stats$Mapped*100
+diag.stats$Prop.marked <- diag.stats$DupMarked/diag.stats$Mapped*100
 diag.stats
 ```
 
