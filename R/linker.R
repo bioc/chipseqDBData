@@ -14,13 +14,13 @@
         outbai <- paste0(outbam, ".bai")
 
         curbam <- hub[hub$rdatapath==curtarget][[1]]
-        if (!file.symlink(curbam, outbam)) {
-            stop(sprintf("failed to create symbolic link at '%s'", outbam))
+        if (!file.link(curbam, outbam)) {
+            stop(sprintf("failed to create link at '%s'", outbam))
         }
 
         curbai <- hub[hub$rdatapath==paste0(curtarget, ".bai")][[1]]
-        if (!file.symlink(curbai, outbai)) {
-            stop(sprintf("failed to create symbolic link at '%s'", outbai))
+        if (!file.link(curbai, outbai)) {
+            stop(sprintf("failed to create link at '%s'", outbai))
         }
     }
 
