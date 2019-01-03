@@ -1,6 +1,6 @@
 #' @importFrom ExperimentHub ExperimentHub
 #' @importMethodsFrom AnnotationHub subset
-.linker <- function(dataset, sra, outdir=tempfile(fileext="_chipseqDBData"), hub=ExperimentHub())
+.linker <- function(dataset, sra, outdir=tempfile(), hub=ExperimentHub())
 # Creates links from the BAM files and indices.
 {
     targets <- file.path("chipseqDBData", dataset, sprintf("%s.bam", sra))
