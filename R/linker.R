@@ -7,6 +7,7 @@
         dir.create(outdir, showWarnings=FALSE)
     }
     output <- file.path(outdir, sprintf("%s.bam", sra))
+    FUN <- .linkFUN()
 
     for (i in seq_along(targets)) {
         curtarget <- targets[i]
@@ -14,15 +15,31 @@
         outbai <- paste0(outbam, ".bai")
 
         curbam <- hub[hub$rdatapath==curtarget][[1]]
-        if (!file.link(curbam, outbam)) {
-            stop(sprintf("failed to create link at '%s'", outbam))
-        }
+        FUN(curbam, outbam)
 
         curbai <- hub[hub$rdatapath==paste0(curtarget, ".bai")][[1]]
-        if (!file.link(curbai, outbai)) {
-            stop(sprintf("failed to create link at '%s'", outbai))
-        }
+        FUN(curbai, outbai)
     }
 
     output
+}
+
+.linkFUN <- function() 
+# Return a function to use hard/soft links depending on the OS.
+{
+    if (.Platform$OS.type=="windows") {
+        function(from, to) {
+            if (!file.link(from, to)) {
+                stop(sprintf("failed to create link at '%s'", to))
+            }
+            invisible(NULL)
+        }
+    } else {
+        function(from, to) {
+            if (!file.symlink(from, to)) {
+                stop(sprintf("failed to create symbolic link at '%s'", to))
+            }
+            invisible(NULL)
+        }
+    }
 }
