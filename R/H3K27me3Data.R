@@ -6,7 +6,7 @@ H3K27me3Data <- function()
      sra.codes <- c("SRR1274188", "SRR1274189", "SRR1274190", "SRR1274191")
      returned <- .linker("h3k27me3/1.0.0", sra.codes)
      DataFrame(
-        Name=files,
+        Name=sra.codes,
         Description=c(
             "control H3K27me3 (1)",
             "control H3K27me3 (2)",
