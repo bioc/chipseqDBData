@@ -41,13 +41,13 @@ for (i in seq_along(sra.numbers)) {
 
 Reads are aligned to the mm10 genome using `r Biocpkg("Rsubread")`.
 This assumes that an index has already been constructed with the prefix `index/mm10`, see the `buildindex()` function for details.
-Here, the default consensus threshold of 3 is used as the reads are longer (75 bp).
-The "type" parameter is also set to optimize for genomic alignment, rather than alignment to the transcriptome.
+The `type` parameter is also set to optimize for genomic alignment, rather than alignment to the transcriptome.
+We only consider uniquely mapped reads to avoid ambiguity due to paralogous regions or repeats.
 
 ```{r}
 library(Rsubread)
 bam.files <- paste0(sra.numbers, ".bam")
-align(index="index/mm10", readfile1=all.fastq, type='dna',
+align(index="index/mm10", readfile1=all.fastq, type='dna', unique=TRUE,
     input_format="gzFASTQ", output_file=bam.files)
 ```
 
