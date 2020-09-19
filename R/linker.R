@@ -29,7 +29,7 @@
 {
     if (.Platform$OS.type=="windows") {
         function(from, to) {
-            if (!file.link(from, to)) {
+            if (!file.symlink(from, to) && !file.link(from, to)) {
                 stop(sprintf("failed to create link at '%s'", to))
             }
             invisible(NULL)
