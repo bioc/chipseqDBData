@@ -22,13 +22,11 @@ NFYAData()
 
 \value{
 BAM files and associated index files are obtained via \pkg{ExperimentHub} if not already present.
-Soft links to those files are created in \code{tempdir()} to ensure that each BAM file and its index have the same name.
-
 A \linkS4class{DataFrame} is returned containing:
 \itemize{
     \item \code{Name}, the name of the BAM file without the \code{*.bam} extension.
     \item \code{Description}, a short string containing the experimental condition and replicate number.
-    \item \code{Path}, a string containing the path to the soft link for each BAM file.
+    \item \code{Path}, a \linkS4class{List} of \linkS4class{BamFile}s containing the path to each BAM file.
 }
 }
 

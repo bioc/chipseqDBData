@@ -1,15 +1,15 @@
 Package: chipseqDBData
 Title: Data for the chipseqDB Workflow
-Version: 1.5.3
-Date: 2020-10-01
+Version: 1.5.4
+Date: 2020-10-08
 Authors@R: person("Aaron", "Lun", role=c("aut", "cre"), 
     email="infinite.monkeys.with.keyboards@gmail.com")
 Description: Sorted and indexed BAM files for ChIP-seq libraries, 
 	for use in the chipseqDB workflow. BAM indices are also included.
 License: CC BY 4.0
-Imports: AnnotationHub, ExperimentHub, S4Vectors
-Suggests: knitr, BiocStyle, Rsamtools
+Imports: AnnotationHub, ExperimentHub, Rsamtools, S4Vectors
+Suggests: knitr, BiocStyle 
 VignetteBuilder: knitr
 biocViews: SequencingData, ChIPSeqData, ExperimentHub
 NeedsCompilation: no
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
