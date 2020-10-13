@@ -1,7 +1,7 @@
 Package: chipseqDBData
 Title: Data for the chipseqDB Workflow
-Version: 1.5.4
-Date: 2020-10-08
+Version: 1.5.5
+Date: 2020-10-12
 Authors@R: person("Aaron", "Lun", role=c("aut", "cre"), 
     email="infinite.monkeys.with.keyboards@gmail.com")
 Description: Sorted and indexed BAM files for ChIP-seq libraries, 

@@ -62,7 +62,7 @@ This includes the number of mapped reads, the number of marked reads (i.e., pote
 library(Rsamtools)
 diagnostics <- list()
 for (i in seq_len(nrow(h3k9ac.paths))) {
-    stats <- scanBam(h3k9ac.paths$Path[i], 
+    stats <- scanBam(h3k9ac.paths$Path[[i]], 
         param=ScanBamParam(what=c("mapq", "flag")))
     flag <- stats[[1]]$flag
     mapq <- stats[[1]]$mapq
