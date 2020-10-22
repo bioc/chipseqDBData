@@ -9,13 +9,7 @@
         curtarget <- targets[i]
         curbam <- hub[hub$rdatapath==curtarget][[1]]
         curbai <- hub[hub$rdatapath==paste0(curtarget, ".bai")][[1]]
-
-        tmpbam <- tempfile(fileext=".bam")
-        file.symlink(curbam, tmpbam) || file.copy(curbam, tmpbam)
-        tmpbai <- tempfile(fileext=".bam.bai")
-        file.symlink(curbai, tmpbai) || file.copy(curbai, tmpbai)
-
-        output[[i]] <- BamFile(tmpbam, index=tmpbai)
+        output[[i]] <- BamFile(curbam, index=curbai)
     }
 
     output
