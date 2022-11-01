@@ -1,6 +1,6 @@
 Package: chipseqDBData
 Title: Data for the chipseqDB Workflow
-Version: 1.13.0
+Version: 1.14.0
 Date: 2021-06-30
 Authors@R: person("Aaron", "Lun", role=c("aut", "cre"), 
     email="infinite.monkeys.with.keyboards@gmail.com")
